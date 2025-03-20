@@ -1,0 +1,32 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo"><img src="assets/OQ5CLB0.webp" alt="Logo">ChefNest</div>
+    </header>
+    <section class="form-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="role">Role:</label>
+            <select id="role" name="role">
+                <option value="user">User</option>
+                <option value="chef">Chef</option>
+                <option value="admin">Admin</option>
+            </select>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </section>
+</body>
+</html>

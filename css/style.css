@@ -1,0 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4E342E;
+    padding: 15px 50px;
+    color: white;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.hero {
+    background: rgb(231, 219, 209);
+    text-align: center;
+    padding: 100px 20px;
+    color: black;
+}
+
+.hero h1 {
+    font-size: 48px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #D7CCC8;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.about, .testimonials {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.featured-recipes, .top-chefs {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #F5F5F5;
+}
+
+.recipe-grid, .chef-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.recipe-card, .chef-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    width: 250px;
+}
+
+.recipe-card img, .chef-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+footer {
+    background-color: #3E2723;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+.form-container h2 {
+    color: #4E342E;
+}
+.form-container label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+}
+.form-container input {
+    width: 94%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.btn {
+    display: inline-block;
+    background-color: #D7CCC8;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
