@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Fetch recipes from the backend and populate the featured recipes section
 function fetchRecipes() {
-    fetch("https://your-backend-url.com/api/recipes")
+    fetch("https://chefnest.onrender.com/recipes")
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
@@ -53,7 +53,7 @@ function fetchRecipes() {
 
 // Fetch chefs from the backend and populate the top chefs section
 function fetchChefs() {
-    fetch("https://your-backend-url.com/api/chefs")
+    fetch("https://chefnest.onrender.com/chefs")
         .then(response => response.json())
         .then(data => {
             const chefGrid = document.querySelector(".chef-grid");
