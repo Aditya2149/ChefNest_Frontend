@@ -1,3 +1,4 @@
+//index.js
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
