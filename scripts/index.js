@@ -25,22 +25,34 @@ document.addEventListener("DOMContentLoaded", function () {
             authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
         }
 
-        document.getElementById("logoutBtn")?.addEventListener("click", function () {
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
-            alert("Logged out successfully.");
-            window.location.href = "index.html";
-        });
+        // Find the logout button and add an event listener
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                alert("Logged out successfully.");
+                window.location.href = "index.html";
+            });
+        }
     }
 
-    fetchRecipes();
-    fetchChefs();
+    // Only fetch recipes and chefs if we're on a page that has these elements
+    // Check if we're on the homepage where these elements exist
+    if (document.querySelector(".recipe-grid")) {
+        fetchRecipes();
+    }
+    
+    if (document.querySelector(".chef-grid")) {
+        fetchChefs();
+    }
 });
 
 function fetchRecipes() {
     const recipeGrid = document.querySelector(".recipe-grid");
 
     if (!recipeGrid) {
+        // This should not happen now with our check above, but keeping as a safeguard
         console.error("Error: .recipe-grid element not found.");
         return;
     }
@@ -70,6 +82,7 @@ function fetchChefs() {
     const chefGrid = document.querySelector(".chef-grid");
 
     if (!chefGrid) {
+        // This should not happen now with our check above, but keeping as a safeguard
         console.error("Error: .chef-grid element not found.");
         return;
     }
