@@ -1,3 +1,4 @@
+//index.js
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
@@ -88,22 +89,41 @@ function fetchChefs() {
     }
 
     fetch("https://chefnest.onrender.com/chef-profile/top-rated")
-        .then(response => response.json())
-        .then(data => {
-            chefGrid.innerHTML = "";
-            data.forEach(chef => {
-                const chefCard = document.createElement("div");
-                chefCard.classList.add("chef-card");
-                chefCard.innerHTML = `
-                    <img src="${chef.image_url}" alt="${chef.name}">
-                    <h3>${chef.name}</h3>
-                    <p>${chef.specialty}</p>
-                    <button class="book-btn" onclick="bookChef(${chef.id})">Book Chef</button>
-                `;
-                chefGrid.appendChild(chefCard);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
         })
-        .catch(error => console.error("Error fetching chefs:", error));
+        .then(data => {
+            console.log("Chef data received:", data); // Debug log to see the data structure
+            
+            chefGrid.innerHTML = "";
+            
+            if (data && data.length > 0) {
+                data.forEach(chef => {
+                    const chefCard = document.createElement("div");
+                    chefCard.classList.add("chef-card");
+                    chefCard.innerHTML = `
+                        <img src="${chef.profile_picture}" alt="${chef.full_name}" onerror="this.src='assets/default-chef.jpg'">
+                        <h3>${chef.full_name}</h3>
+                        <div class="chef-info">
+                            <p><strong>Rating:</strong> ${parseFloat(chef.average_rating).toFixed(1)}⭐</p>
+                            <p><strong>Location:</strong> ${chef.location}</p>
+                            <p><strong>Expertise:</strong> ${chef.expertise}</p>
+                        </div>
+                        <button class="book-btn" onclick="bookChef(${chef.id})">Book Chef</button>
+                    `;
+                    chefGrid.appendChild(chefCard);
+                });
+            } else {
+                chefGrid.innerHTML = "<p>No top chefs available at the moment.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching chefs:", error);
+            chefGrid.innerHTML = "<p>Unable to load chef data. Please try again later.</p>";
+        });
 }
 
 function bookChef(chefId) {
