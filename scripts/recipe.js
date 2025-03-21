@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const chefId = recipe.chef_id;
 
         // Fetch chef details using chefId
-        const chefResponse = await fetch(`https://chefnest.onrender.com/chefs/${chefId}`);
+        const chefResponse = await fetch(`https://chefnest.onrender.com/chef-profile/${chefId}`);
         const chefData = await chefResponse.json();
         const chefName = chefData.chef_name;
 
