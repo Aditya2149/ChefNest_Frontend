@@ -71,7 +71,7 @@ function fetchRecipes(page) {
                     <p>${recipe.description.substring(0, 100)}...</p>
                 `;
                 recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe-details.html?id=${recipe.id}`;
+                    window.location.href = `recipe.html?id=${recipe.id}`;
                 });
                 recipeGrid.appendChild(recipeCard);
             });
@@ -98,7 +98,7 @@ function searchRecipes() {
                     <p>${recipe.description.substring(0, 100)}...</p>
                 `;
                 recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe-details.html?id=${recipe.id}`;
+                    window.location.href = `recipe.html?id=${recipe.id}`;
                 });
                 recipeGrid.appendChild(recipeCard);
             });
