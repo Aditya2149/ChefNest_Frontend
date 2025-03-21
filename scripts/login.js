@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://chefnest.onrender.com";  // Update with your backend URL
+const API_BASE_URL = "https://chefnest.onrender.com"; // Update with your backend URL
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
@@ -9,18 +9,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const role = document.getElementById("role").value; // User, Chef, or Admin
 
             try {
                 const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password, role }),
+                    body: JSON.stringify({ email, password }),
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
+                    const role = data.role; // Extract role from API response
+
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("role", role);
 
@@ -32,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         window.location.href = "chef-dashboard.html";
                     } else {
                         alert("User Login Successful!");
-                        window.location.href = "dashboard.html";
+                        window.location.href = "index.html";
                     }
                 } else {
-                    alert("Login Failed: " + data.message);
+                    alert("Login Failed: " + (data.message || "Invalid credentials"));
                 }
             } catch (error) {
                 console.error("Login Error:", error);

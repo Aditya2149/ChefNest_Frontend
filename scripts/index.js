@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle authentication links
     if (token) {
         document.getElementById("authLinks").innerHTML = `
-            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="chefs.html">Chefs</a></li>
             <li><a href="#" id="logoutBtn">Logout</a></li>
         `;
     }
