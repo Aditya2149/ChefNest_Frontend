@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Details</title>
+    <title>Recipe Sharing & Chef Booking</title>
     <link rel="stylesheet" href="css/style.css">
-    <script defer src="scripts/recipe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script defer src="scripts/index.js"></script>
 </head>
 <body>
     <header>
-        <a href="index.html">← Back to Home</a>
+        <div class="logo">
+            <img src="assets/OQ5CLB0.webp" alt="Recipe Hub Logo">
+            <span>ChefNest</span>
+        </div>
+        <nav>
+            <ul id="authLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="chefs.html">Chefs</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li class="dropdown">
+                    <a href="#">Sign Up ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signup-user.html">Sign Up as User</a></li>
+                        <li><a href="signup-chef.html">Sign Up as Chef</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </header>
 
     <section id="recipe-details">
