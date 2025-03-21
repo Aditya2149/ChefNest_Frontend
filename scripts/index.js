@@ -1,3 +1,4 @@
+//index.js
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
@@ -50,7 +51,7 @@ function fetchRecipes() {
                     <p>${recipe.description.substring(0, 100)}...</p>
                 `;
                 recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe-details.html?id=${recipe.id}`;
+                    window.location.href = `recipe.html?id=${recipe.id}`;
                 });
                 recipeGrid.appendChild(recipeCard);
             });
@@ -81,30 +82,4 @@ function fetchChefs() {
 
 function bookChef(chefId) {
     window.location.href = `booking.html?chefId=${chefId}`;
-}
-
-// Search functionality
-function searchRecipes() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase();
-    fetch("https://chefnest.onrender.com/recipes")
-        .then(response => response.json())
-        .then(data => {
-            const filteredRecipes = data.filter(recipe => recipe.title.toLowerCase().includes(searchInput));
-            const recipeGrid = document.querySelector(".recipe-grid");
-            recipeGrid.innerHTML = "";
-            filteredRecipes.forEach(recipe => {
-                const recipeCard = document.createElement("div");
-                recipeCard.classList.add("recipe-card");
-                recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}">
-                    <h3>${recipe.title}</h3>
-                    <p>${recipe.description.substring(0, 100)}...</p>
-                `;
-                recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe-details.html?id=${recipe.id}`;
-                });
-                recipeGrid.appendChild(recipeCard);
-            });
-        })
-        .catch(error => console.error("Error searching recipes:", error));
 }

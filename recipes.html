@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - ChefNest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="scripts/recipes.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/OQ5CLB0.webp" alt="Recipe Hub Logo">
+            <span>ChefNest</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html" class="active">Recipes</a></li>
+                <li><a href="chefs.html">Chefs</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Search Bar (Moved from Index Page) -->
+    <section class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for recipes...">
+        <button onclick="searchRecipes()">Search</button>
+    </section>
+
+    <section class="recipes-list">
+        <h2>All Recipes</h2>
+        <div class="recipe-grid"></div>
+        <div class="pagination">
+            <button id="prevPage">Previous</button>
+            <span id="pageNumber">Page 1</span>
+            <button id="nextPage">Next</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Recipe Sharing & Chef Booking. All rights reserved.</p>
+    </footer>
+</body>
+</html>
