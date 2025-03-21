@@ -60,7 +60,7 @@ function fetchRecipes() {
 }
 
 function fetchChefs() {
-    fetch("https://chefnest.onrender.com/chefs")
+    fetch("https://chefnest.onrender.com/chef-profile/top-rated")
         .then(response => response.json())
         .then(data => {
             const chefGrid = document.querySelector(".chef-grid");

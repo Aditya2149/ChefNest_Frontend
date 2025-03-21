@@ -76,7 +76,7 @@ nav ul li a {
     padding: 50px 20px;
     background-color: #F5F5F5;
 }
-/*
+
 .recipe-grid, .chef-grid {
     display: flex;
     justify-content: center;
@@ -95,25 +95,25 @@ nav ul li a {
 .recipe-card img, .chef-card img {
     width: 100%;
     border-radius: 8px;
-} */
+} 
 
-.recipe-card .chef-card{
+/* .recipe-card .chef-card{
     position: relative;
     overflow: hidden;
     border-radius: 10px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
+} */
 
 .recipe-card:hover .chef-card:hover {
     transform: scale(1.05);
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.recipe-card img .chef-card img{
+/* .recipe-card img .chef-card img{
     width: 100%;
     height: auto;
     transition: opacity 0.3s ease-in-out;
-}
+} */
 
 .recipe-card:hover img .chef-card:hover img{
     opacity: 0.8;
