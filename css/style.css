@@ -152,47 +152,10 @@ nav ul li a {
     background-color: #3E2723;
 }
 
-/* Recipe Grid Styling */
-/* .recipe-grid .chef-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.recipe-card .chef-card{
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-} */
-
 .recipe-card:hover .chef-card:hover{
     transform: translateY(-5px);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
 }
-
-/* .recipe-card img .chef-card img{
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 2px solid #D7CCC8;
-}
-
-.recipe-card h3 .chef-card h3{
-    font-size: 20px;
-    margin: 15px;
-    color: #4E342E;
-}
-
-.recipe-card p .chef-card p{
-    font-size: 14px;
-    margin: 0 15px 15px;
-    color: #666;
-} */
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -239,16 +202,13 @@ nav ul li a {
     width: 100%;
     border-radius: 8px;
     transition: opacity 0.3s ease-in-out;
-} 
+}
 
-/* .recipe-card:hover .chef-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-} */
-
-/* .recipe-card:hover img, .chef-card:hover img {
-    opacity: 0.8;
-} */
+.recipes-list h2 {
+    font-size: 20px;
+    margin: 15px;
+    color: #4E342E;
+}
 
 .recipe-card h3 .chef-card h3{
     margin: 10px 0;
@@ -337,4 +297,29 @@ footer {
 }
 .dropdown:hover .dropdown-menu {
     display: block;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-btn {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.page-btn:hover {
+    background-color: #ddd;
+}
+
+.page-btn.active {
+    background-color: #007bff;
+    color: white;
+    border: none;
 }

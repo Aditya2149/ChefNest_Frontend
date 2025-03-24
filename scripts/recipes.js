@@ -1,69 +1,15 @@
 //recipes.js
 let currentPage = 1;
-const recipesPerPage = 6;
+const recipesPerPage = 15;
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchRecipes(); // Fetch all recipes initially
-    setupSearch(); // Set up search functionality
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-
-    const authLinks = document.getElementById("authLinks");
-
-    if (authLinks) {
-        if (token) {
-            authLinks.innerHTML = `
-                <li><a href="index.html">Home</a></li>
-                <li><a href="recipes.html">Recipes</a></li>
-                <li><a href="chefs.html">Chefs</a></li>
-                <li class="dropdown">
-                    <a href="#">My Account ▼</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="profile.html">My Profile</a></li>
-                        <li><a href="favorites.html">Favorites</a></li>
-                        <li><a href="#" id="logoutBtn">Logout</a></li>
-                    </ul>
-                </li>
-            `;
-        }
-
-        if (role === "admin") {
-            authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
-        }
-
-        const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) {
-            logoutBtn.addEventListener("click", function () {
-                localStorage.removeItem("token");
-                localStorage.removeItem("role");
-                alert("Logged out successfully.");
-                window.location.href = "index.html";
-            });
-        }
-    }
-
-    const prevPageBtn = document.getElementById("prevPage");
-    const nextPageBtn = document.getElementById("nextPage");
-    
-    if (prevPageBtn) {
-        prevPageBtn.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                fetchRecipes(currentPage);
-            }
-        });
-    }
-
-    if (nextPageBtn) {
-        nextPageBtn.addEventListener("click", () => {
-            currentPage++;
-            fetchRecipes(currentPage);
-        });
-    }
+    fetchRecipes(currentPage);
+    setupSearch();
+    setupPagination();
 });
 
-function fetchRecipes() {
-    fetch(`https://chefnest.onrender.com/recipes`)
+function fetchRecipes(page = 1) {
+    fetch(`https://chefnest.onrender.com/recipes?page=${page}&limit=${recipesPerPage}`)
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
@@ -71,14 +17,14 @@ function fetchRecipes() {
                 console.error("Recipe grid element not found");
                 return;
             }
-            
+
             recipeGrid.innerHTML = "";
 
-            data.forEach(recipe => {
+            data.recipes.forEach(recipe => {
                 const recipeCard = document.createElement("div");
                 recipeCard.classList.add("recipe-card");
                 recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
+                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Recipe'">
                     <h3>${recipe.title}</h3>
                     <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
                 `;
@@ -87,8 +33,31 @@ function fetchRecipes() {
                 });
                 recipeGrid.appendChild(recipeCard);
             });
+
+            setupPagination(data.totalPages, data.currentPage);
         })
         .catch(error => console.error("Error fetching recipes:", error));
+}
+
+function setupPagination(totalPages, currentPage) {
+    const paginationContainer = document.getElementById("pagination");
+    if (!paginationContainer) return;
+
+    paginationContainer.innerHTML = ""; // Clear previous pagination
+
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement("button");
+        pageButton.textContent = i;
+        pageButton.classList.add("page-btn");
+        if (i === currentPage) {
+            pageButton.classList.add("active");
+        }
+        pageButton.addEventListener("click", () => {
+            currentPage = i;
+            fetchRecipes(currentPage);
+        });
+        paginationContainer.appendChild(pageButton);
+    }
 }
 
 function setupSearch() {
