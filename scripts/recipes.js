@@ -91,46 +91,32 @@ function fetchRecipes() {
 }
 
 function setupSearch() {
-    const searchForm = document.querySelector(".search-bar");
     const searchInput = document.getElementById("searchInput");
     const searchButton = document.querySelector(".search-bar button");
 
-    // Add event listener to the form instead of just the button
-    if (searchForm) {
-        searchForm.addEventListener("submit", function(e) {
-            e.preventDefault(); // Prevent the form from submitting normally
+    searchButton.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevents the page from refreshing
+        const query = searchInput.value.trim();
+        if (query) {
+            searchRecipes(query);
+        } else {
+            fetchRecipes(); // Fetch all recipes if search query is empty
+        }
+    });
+
+    searchInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevents the page from refreshing
             const query = searchInput.value.trim();
             if (query) {
                 searchRecipes(query);
             } else {
                 fetchRecipes(); // Fetch all recipes if search query is empty
             }
-        });
-    } else if (searchButton && searchInput) {
-        // Fallback if there's no form but there are input and button
-        searchButton.addEventListener("click", function(e) {
-            e.preventDefault(); // Prevent default action
-            const query = searchInput.value.trim();
-            if (query) {
-                searchRecipes(query);
-            } else {
-                fetchRecipes();
-            }
-        });
-
-        searchInput.addEventListener("keypress", function(e) {
-            if (e.key === "Enter") {
-                e.preventDefault(); // Prevent default action
-                const query = searchInput.value.trim();
-                if (query) {
-                    searchRecipes(query);
-                } else {
-                    fetchRecipes();
-                }
-            }
-        });
-    }
+        }
+    });
 }
+
 
 function searchRecipes(query) {
     console.log("Searching for:", query); // Debug log
