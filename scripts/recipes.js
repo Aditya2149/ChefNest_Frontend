@@ -1,13 +1,32 @@
 //recipes.js
 let currentPage = 1;
 const recipesPerPage = 15;
+let currentSearchQuery = ""; // Store search input
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchRecipes(currentPage);
+
+    // Attach search functionality to the button
+    document.querySelector(".search-bar button").addEventListener("click", function () {
+        handleSearch();
+    });
+
+    // Also trigger search on "Enter" key press
+    document.getElementById("searchInput").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
+    });
 });
 
-function fetchRecipes(page = 1) {
-    fetch(`https://chefnest.onrender.com/recipes?page=${page}&limit=${recipesPerPage}`)
+// Function to fetch recipes with pagination & search
+function fetchRecipes(page = 1, searchQuery = "") {
+    let url = `https://chefnest.onrender.com/recipes?page=${page}&limit=${recipesPerPage}`;
+    if (searchQuery) {
+        url += `&search=${encodeURIComponent(searchQuery)}`;
+    }
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
@@ -18,32 +37,37 @@ function fetchRecipes(page = 1) {
 
             recipeGrid.innerHTML = "";
 
-            data.recipes.forEach(recipe => {
-                const recipeCard = document.createElement("div");
-                recipeCard.classList.add("recipe-card");
-                recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.onerror=null; this.src='images/placeholder.jpg';">
-                    <h3>${recipe.title}</h3>
-                    <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
-                `;
-                recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe.html?id=${recipe.id}`;
+            if (data.recipes.length === 0) {
+                recipeGrid.innerHTML = `<p class="no-recipes">No recipes found.</p>`;
+            } else {
+                data.recipes.forEach(recipe => {
+                    const recipeCard = document.createElement("div");
+                    recipeCard.classList.add("recipe-card");
+                    recipeCard.innerHTML = `
+                        <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.onerror=null; this.src='images/placeholder.jpg';">
+                        <h3>${recipe.title}</h3>
+                        <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
+                    `;
+                    recipeCard.addEventListener("click", () => {
+                        window.location.href = `recipe.html?id=${recipe.id}`;
+                    });
+                    recipeGrid.appendChild(recipeCard);
                 });
-                recipeGrid.appendChild(recipeCard);
-            });
+            }
 
-            setupPagination(data.totalPages, data.currentPage);
+            setupPagination(data.totalPages, data.currentPage, searchQuery);
         })
         .catch(error => console.error("Error fetching recipes:", error));
 }
 
-function setupPagination(totalPages, currentPage) {
+// Pagination setup
+function setupPagination(totalPages, currentPage, searchQuery) {
     const paginationContainer = document.getElementById("pagination");
     if (!paginationContainer) return;
 
     paginationContainer.innerHTML = ""; // Clear previous pagination
 
-    // Prev Button
+    // Previous Button
     const prevButton = document.createElement("button");
     prevButton.textContent = "❮ Prev";
     prevButton.classList.add("page-btn", "prev-btn");
@@ -51,7 +75,7 @@ function setupPagination(totalPages, currentPage) {
     prevButton.addEventListener("click", () => {
         if (currentPage > 1) {
             currentPage--;
-            fetchRecipes(currentPage);
+            fetchRecipes(currentPage, searchQuery);
         }
     });
     paginationContainer.appendChild(prevButton);
@@ -66,7 +90,7 @@ function setupPagination(totalPages, currentPage) {
         }
         pageButton.addEventListener("click", () => {
             currentPage = i;
-            fetchRecipes(currentPage);
+            fetchRecipes(currentPage, searchQuery);
         });
         paginationContainer.appendChild(pageButton);
     }
@@ -79,10 +103,17 @@ function setupPagination(totalPages, currentPage) {
     nextButton.addEventListener("click", () => {
         if (currentPage < totalPages) {
             currentPage++;
-            fetchRecipes(currentPage);
+            fetchRecipes(currentPage, searchQuery);
         }
     });
     paginationContainer.appendChild(nextButton);
+}
+
+// Handle Search
+function handleSearch() {
+    currentSearchQuery = document.getElementById("searchInput").value.trim();
+    currentPage = 1; // Reset to first page when searching
+    fetchRecipes(currentPage, currentSearchQuery);
 }
 
 function setupSearch() {
