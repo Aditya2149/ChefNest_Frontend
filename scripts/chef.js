@@ -1,5 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
     fetchChefs(); // Fetch and display chefs on page load
+
+    const token = localStorage.getItem("token");
+
+    const authLinks = document.getElementById("authLinks");
+
+    if (authLinks) {
+        if (token) {
+            authLinks.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="chefs.html">Chefs</a></li>
+                <li class="dropdown">
+                    <a href="#">My Account</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="favorites.html">Favorites</a></li>
+                        <li><a href="#" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </li>
+            `;
+        }
+
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                alert("Logged out successfully.");
+                window.location.href = "index.html";
+            });
+        }
+    }
 });
 
 // Fetch all chefs from the backend

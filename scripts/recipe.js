@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <li><a href="recipes.html">Recipes</a></li>
             <li><a href="chefs.html">Chefs</a></li>
             <li class="dropdown">
-                <a href="#">My Account ▼</a>
+                <a href="#">My Account</a>
                 <ul class="dropdown-menu">
                     <li><a href="profile.html">My Profile</a></li>
                     <li><a href="favorites.html">Favorites</a></li>
