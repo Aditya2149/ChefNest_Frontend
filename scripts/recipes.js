@@ -1,33 +1,69 @@
 //recipes.js
 let currentPage = 1;
-const recipesPerPage = 15;
-let currentSearchQuery = ""; // Store search input
+const recipesPerPage = 6;
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchRecipes(currentPage);
+    fetchRecipes(); // Fetch all recipes initially
+    setupSearch(); // Set up search functionality
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
 
-    // Attach search functionality
-    document.querySelector(".search-bar button").addEventListener("click", function (event) {
-        event.preventDefault(); // Prevents page refresh
-        handleSearch();
-    });
+    const authLinks = document.getElementById("authLinks");
 
-    document.getElementById("searchInput").addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            handleSearch();
+    if (authLinks) {
+        if (token) {
+            authLinks.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="chefs.html">Chefs</a></li>
+                <li class="dropdown">
+                    <a href="#">My Account ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="favorites.html">Favorites</a></li>
+                        <li><a href="#" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </li>
+            `;
         }
-    });
-});
 
-// Function to fetch recipes with pagination & search
-function fetchRecipes(page = 1, searchQuery = "") {
-    let url = `https://chefnest.onrender.com/recipes?page=${page}&limit=${recipesPerPage}`;
-    if (searchQuery) {
-        url += `&search=${encodeURIComponent(searchQuery)}`;
+        if (role === "admin") {
+            authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
+        }
+
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                alert("Logged out successfully.");
+                window.location.href = "index.html";
+            });
+        }
     }
 
-    fetch(url)
+    const prevPageBtn = document.getElementById("prevPage");
+    const nextPageBtn = document.getElementById("nextPage");
+    
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchRecipes(currentPage);
+            }
+        });
+    }
+
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener("click", () => {
+            currentPage++;
+            fetchRecipes(currentPage);
+        });
+    }
+});
+
+function fetchRecipes() {
+    fetch(`https://chefnest.onrender.com/recipes`)
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
@@ -35,84 +71,53 @@ function fetchRecipes(page = 1, searchQuery = "") {
                 console.error("Recipe grid element not found");
                 return;
             }
-
+            
             recipeGrid.innerHTML = "";
 
-            if (!data.recipes || data.recipes.length === 0) {
-                recipeGrid.innerHTML = `<p class="no-recipes">No recipes found.</p>`;
-            } else {
-                data.recipes.forEach(recipe => {
-                    const recipeCard = document.createElement("div");
-                    recipeCard.classList.add("recipe-card");
-                    recipeCard.innerHTML = `
-                        <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.onerror=null; this.src='images/placeholder.jpg';">
-                        <h3>${recipe.title}</h3>
-                        <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
-                    `;
-                    recipeCard.addEventListener("click", () => {
-                        window.location.href = `recipe.html?id=${recipe.id}`;
-                    });
-                    recipeGrid.appendChild(recipeCard);
+            data.forEach(recipe => {
+                const recipeCard = document.createElement("div");
+                recipeCard.classList.add("recipe-card");
+                recipeCard.innerHTML = `
+                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
+                    <h3>${recipe.title}</h3>
+                    <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
+                `;
+                recipeCard.addEventListener("click", () => {
+                    window.location.href = `recipe.html?id=${recipe.id}`;
                 });
-            }
-
-            setupPagination(data.totalPages, data.currentPage, searchQuery);
+                recipeGrid.appendChild(recipeCard);
+            });
         })
         .catch(error => console.error("Error fetching recipes:", error));
 }
 
-// Pagination setup
-function setupPagination(totalPages, currentPage, searchQuery) {
-    const paginationContainer = document.getElementById("pagination");
-    if (!paginationContainer) return;
+function setupSearch() {
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.querySelector(".search-bar button");
 
-    paginationContainer.innerHTML = ""; // Clear previous pagination
-
-    // Previous Button
-    const prevButton = document.createElement("button");
-    prevButton.textContent = "❮ Prev";
-    prevButton.classList.add("page-btn", "prev-btn");
-    prevButton.disabled = currentPage === 1;
-    prevButton.addEventListener("click", () => {
-        if (currentPage > 1) {
-            fetchRecipes(--currentPage, searchQuery);
+    searchButton.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevents the page from refreshing
+        const query = searchInput.value.trim();
+        if (query) {
+            searchRecipes(query);
+        } else {
+            fetchRecipes(); // Fetch all recipes if search query is empty
         }
     });
-    paginationContainer.appendChild(prevButton);
 
-    // Numbered Buttons
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement("button");
-        pageButton.textContent = i;
-        pageButton.classList.add("page-btn");
-        if (i === currentPage) {
-            pageButton.classList.add("active");
-        }
-        pageButton.addEventListener("click", () => {
-            fetchRecipes(i, searchQuery);
-        });
-        paginationContainer.appendChild(pageButton);
-    }
-
-    // Next Button
-    const nextButton = document.createElement("button");
-    nextButton.textContent = "Next ❯";
-    nextButton.classList.add("page-btn", "next-btn");
-    nextButton.disabled = currentPage === totalPages;
-    nextButton.addEventListener("click", () => {
-        if (currentPage < totalPages) {
-            fetchRecipes(++currentPage, searchQuery);
+    searchInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevents the page from refreshing
+            const query = searchInput.value.trim();
+            if (query) {
+                searchRecipes(query);
+            } else {
+                fetchRecipes(); // Fetch all recipes if search query is empty
+            }
         }
     });
-    paginationContainer.appendChild(nextButton);
 }
 
-// Handle Search
-function handleSearch() {
-    currentSearchQuery = document.getElementById("searchInput").value.trim();
-    currentPage = 1; // Reset to first page when searching
-    fetchRecipes(currentPage, currentSearchQuery);
-}
 
 function searchRecipes(query) {
     console.log("Searching for:", query);
