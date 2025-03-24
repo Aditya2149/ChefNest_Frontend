@@ -153,7 +153,7 @@ nav ul li a {
 }
 
 /* Recipe Grid Styling */
-.recipe-grid .chef-grid{
+/* .recipe-grid .chef-grid{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
@@ -168,14 +168,14 @@ nav ul li a {
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
+} */
 
 .recipe-card:hover .chef-card:hover{
     transform: translateY(-5px);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.recipe-card img .chef-card img{
+/* .recipe-card img .chef-card img{
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -192,7 +192,7 @@ nav ul li a {
     font-size: 14px;
     margin: 0 15px 15px;
     color: #666;
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -219,14 +219,14 @@ nav ul li a {
         grid-template-columns: 1fr;
     }
 }
-/* .recipe-grid, .chef-grid {
+.recipe-grid, .chef-grid {
     display: flex;
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
-} */
+}
 
-/* .recipe-card, .chef-card {
+.recipe-card, .chef-card {
     background: white;
     padding: 15px;
     border-radius: 8px;
@@ -241,14 +241,14 @@ nav ul li a {
     transition: opacity 0.3s ease-in-out;
 } 
 
-.recipe-card:hover .chef-card:hover {
+/* .recipe-card:hover .chef-card:hover {
     transform: scale(1.05);
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-}
+} */
 
-.recipe-card:hover img, .chef-card:hover img {
+/* .recipe-card:hover img, .chef-card:hover img {
     opacity: 0.8;
-}
+} */
 
 .recipe-card h3 .chef-card h3{
     margin: 10px 0;
@@ -257,7 +257,7 @@ nav ul li a {
 
 .recipe-card:hover h3 .chef-card:hover h3 {
     color: #ff6347; 
-} */
+}
 
 footer {
     background-color: #3E2723;
