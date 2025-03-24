@@ -1,3 +1,4 @@
+//recipes.js
 let currentPage = 1;
 const recipesPerPage = 6;
 
@@ -77,7 +78,7 @@ function fetchRecipes() {
                 const recipeCard = document.createElement("div");
                 recipeCard.classList.add("recipe-card");
                 recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Recipe'">
+                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
                     <h3>${recipe.title}</h3>
                     <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
                 `;
@@ -119,9 +120,9 @@ function setupSearch() {
 
 
 function searchRecipes(query) {
-    console.log("Searching for:", query); // Debug log
-    
-    fetch(`https://chefnest.onrender.com/recipes?query=${encodeURIComponent(query)}`)
+    console.log("Searching for:", query);
+
+    fetch(`https://chefnest.onrender.com/recipes/search?query=${encodeURIComponent(query)}`)
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
@@ -141,7 +142,7 @@ function searchRecipes(query) {
                 const recipeCard = document.createElement("div");
                 recipeCard.classList.add("recipe-card");
                 recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Recipe'">
+                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
                     <h3>${recipe.title}</h3>
                     <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
                 `;
