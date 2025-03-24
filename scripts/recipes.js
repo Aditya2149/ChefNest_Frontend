@@ -4,8 +4,6 @@ const recipesPerPage = 15;
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchRecipes(currentPage);
-    setupSearch();
-    setupPagination();
 });
 
 function fetchRecipes(page = 1) {
@@ -24,7 +22,7 @@ function fetchRecipes(page = 1) {
                 const recipeCard = document.createElement("div");
                 recipeCard.classList.add("recipe-card");
                 recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Recipe'">
+                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.onerror=null; this.src='images/placeholder.jpg';">
                     <h3>${recipe.title}</h3>
                     <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
                 `;
@@ -45,6 +43,20 @@ function setupPagination(totalPages, currentPage) {
 
     paginationContainer.innerHTML = ""; // Clear previous pagination
 
+    // Prev Button
+    const prevButton = document.createElement("button");
+    prevButton.textContent = "❮ Prev";
+    prevButton.classList.add("page-btn", "prev-btn");
+    prevButton.disabled = currentPage === 1;
+    prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchRecipes(currentPage);
+        }
+    });
+    paginationContainer.appendChild(prevButton);
+
+    // Numbered Buttons
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement("button");
         pageButton.textContent = i;
@@ -58,6 +70,19 @@ function setupPagination(totalPages, currentPage) {
         });
         paginationContainer.appendChild(pageButton);
     }
+
+    // Next Button
+    const nextButton = document.createElement("button");
+    nextButton.textContent = "Next ❯";
+    nextButton.classList.add("page-btn", "next-btn");
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchRecipes(currentPage);
+        }
+    });
+    paginationContainer.appendChild(nextButton);
 }
 
 function setupSearch() {
