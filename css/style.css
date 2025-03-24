@@ -1,19 +1,11 @@
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #fff;
     color: #333;
-    line-height: 1.6;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -21,9 +13,6 @@ header {
     background-color: #4E342E;
     padding: 15px 50px;
     color: white;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
 }
 
 .logo {
@@ -53,14 +42,8 @@ nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 18px;
-    transition: color 0.3s ease;
 }
 
-nav ul li a:hover {
-    color: #D7CCC8;
-}
-
-/* Hero Section */
 .hero {
     background: rgb(231, 219, 209);
     text-align: center;
@@ -83,20 +66,18 @@ nav ul li a:hover {
     border-radius: 5px;
 }
 
-/* About and Testimonials Sections */
 .about, .testimonials {
     text-align: center;
     padding: 50px 20px;
 }
 
-/* Featured Recipes and Top Chefs Sections */
 .featured-recipes, .top-chefs {
     text-align: center;
     padding: 50px 20px;
     background-color: #F5F5F5;
 }
 
-/* Recipe Details Styling */
+/* Recipe details styling */
 .recipe-container {
     max-width: 800px;
     margin: 20px auto;
@@ -130,19 +111,126 @@ nav ul li a:hover {
     color: #d84315;
 }
 
-/* Recipe and Chef Grids */
-.recipe-grid, .chef-grid {
+/* ===== Recipes Page Specific Styles ===== */
+
+/* Search Bar Styling */
+.search-bar {
+    text-align: center;
+    padding: 20px;
+    background-color: #F5F5F5;
+    margin-bottom: 30px;
+}
+
+.search-bar input[type="text"] {
+    width: 60%;
+    max-width: 500px;
+    padding: 12px;
+    border: 2px solid #D7CCC8;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color: #4E342E;
+}
+
+.search-bar button {
+    padding: 12px 24px;
+    background-color: #4E342E;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search-bar button:hover {
+    background-color: #3E2723;
+}
+
+/* Recipe Grid Styling */
+.recipe-grid .chef-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.recipe-card .chef-card{
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.recipe-card:hover .chef-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-card img .chef-card img{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #D7CCC8;
+}
+
+.recipe-card h3 .chef-card h3{
+    font-size: 20px;
+    margin: 15px;
+    color: #4E342E;
+}
+
+.recipe-card p .chef-card p{
+    font-size: 14px;
+    margin: 0 15px 15px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-bar input[type="text"] {
+        width: 70%;
+    }
+
+    .recipe-grid .chef-grid{
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .search-bar input[type="text"] {
+        width: 80%;
+    }
+
+    .search-bar button {
+        margin-left: 5px;
+        padding: 10px 20px;
+    }
+
+    .recipe-grid .chef-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* .recipe-grid, .chef-grid {
     display: flex;
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
-}
+} */
 
-.recipe-card, .chef-card {
+/* .recipe-card, .chef-card {
     background: white;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
     width: 250px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
@@ -151,9 +239,9 @@ nav ul li a:hover {
     width: 100%;
     border-radius: 8px;
     transition: opacity 0.3s ease-in-out;
-}
+} 
 
-.recipe-card:hover, .chef-card:hover {
+.recipe-card:hover .chef-card:hover {
     transform: scale(1.05);
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -162,16 +250,15 @@ nav ul li a:hover {
     opacity: 0.8;
 }
 
-.recipe-card h3, .chef-card h3 {
+.recipe-card h3 .chef-card h3{
     margin: 10px 0;
     transition: color 0.3s ease-in-out;
 }
 
-.recipe-card:hover h3, .chef-card:hover h3 {
-    color: #ff6347; /* Highlight color */
-}
+.recipe-card:hover h3 .chef-card:hover h3 {
+    color: #ff6347; 
+} */
 
-/* Footer */
 footer {
     background-color: #3E2723;
     color: white;
@@ -180,27 +267,23 @@ footer {
     margin-top: 30px;
 }
 
-/* Form Container */
 .form-container {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
     background: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
     border-radius: 8px;
     text-align: center;
 }
-
 .form-container h2 {
     color: #4E342E;
 }
-
 .form-container label {
     display: block;
     text-align: left;
     margin: 10px 0 5px;
 }
-
 .form-container input {
     width: 94%;
     padding: 10px;
@@ -209,14 +292,13 @@ footer {
     border-radius: 5px;
 }
 
-.form-container select {
+.form-container select{
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 .btn {
     display: inline-block;
     background-color: #D7CCC8;
@@ -229,145 +311,30 @@ footer {
     cursor: pointer;
 }
 
-/* Dropdown Menu */
 .dropdown {
     position: relative;
     display: inline-block;
 }
-
 .dropdown-menu {
     display: none;
     position: absolute;
     background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
     list-style: none;
     padding: 0;
     min-width: 150px;
 }
-
 .dropdown-menu li {
     padding: 10px;
 }
-
 .dropdown-menu li a {
     text-decoration: none;
     color: black;
     display: block;
 }
-
 .dropdown-menu li:hover {
     background-color: #f0f0f0;
 }
-
 .dropdown:hover .dropdown-menu {
     display: block;
-}
-
-/* Additions for Recipes Page */
-.search-bar {
-    text-align: center;
-    padding: 20px;
-    background-color: #D7CCC8;
-    margin-bottom: 20px;
-}
-
-.search-bar input {
-    width: 60%;
-    max-width: 400px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.search-bar button {
-    padding: 10px 20px;
-    background-color: #4E342E;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.search-bar button:hover {
-    background-color: #3E2723;
-}
-
-.recipes-list {
-    padding: 20px;
-    text-align: center;
-}
-
-.recipes-list h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #4E342E;
-}
-
-.recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.recipe-card {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.recipe-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.recipe-card h3 {
-    font-size: 20px;
-    margin: 10px 0;
-    color: #4E342E;
-}
-
-.recipe-card p {
-    font-size: 14px;
-    color: #666;
-}
-
-.no-results {
-    font-size: 18px;
-    color: #666;
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* Responsive Design for Recipes Page */
-@media (max-width: 768px) {
-    .search-bar input {
-        width: 70%;
-    }
-
-    .recipe-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-}
-
-@media (max-width: 480px) {
-    .search-bar input {
-        width: 80%;
-    }
-
-    .recipe-grid {
-        grid-template-columns: 1fr;
-    }
 }
