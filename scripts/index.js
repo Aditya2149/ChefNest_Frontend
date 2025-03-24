@@ -58,7 +58,7 @@ function fetchRecipes() {
         return;
     }
 
-    fetch("https://chefnest.onrender.com/recipes")
+    fetch("https://chefnest.onrender.com/recipes/top-rated")
         .then(response => response.json())
         .then(data => {
             recipeGrid.innerHTML = "";

@@ -223,6 +223,8 @@ footer {
     background-color: #3E2723;
     color: white;
     text-align: center;
+    width: 100%;
+    position: absolute;
     padding: 20px;
     margin-top: 30px;
 }
