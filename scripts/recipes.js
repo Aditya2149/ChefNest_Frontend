@@ -6,14 +6,15 @@ let currentSearchQuery = ""; // Store search input
 document.addEventListener("DOMContentLoaded", function () {
     fetchRecipes(currentPage);
 
-    // Attach search functionality to the button
-    document.querySelector(".search-bar button").addEventListener("click", function () {
+    // Attach search functionality
+    document.querySelector(".search-bar button").addEventListener("click", function (event) {
+        event.preventDefault(); // Prevents page refresh
         handleSearch();
     });
 
-    // Also trigger search on "Enter" key press
     document.getElementById("searchInput").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
+            event.preventDefault();
             handleSearch();
         }
     });
@@ -37,7 +38,7 @@ function fetchRecipes(page = 1, searchQuery = "") {
 
             recipeGrid.innerHTML = "";
 
-            if (data.recipes.length === 0) {
+            if (!data.recipes || data.recipes.length === 0) {
                 recipeGrid.innerHTML = `<p class="no-recipes">No recipes found.</p>`;
             } else {
                 data.recipes.forEach(recipe => {
@@ -74,8 +75,7 @@ function setupPagination(totalPages, currentPage, searchQuery) {
     prevButton.disabled = currentPage === 1;
     prevButton.addEventListener("click", () => {
         if (currentPage > 1) {
-            currentPage--;
-            fetchRecipes(currentPage, searchQuery);
+            fetchRecipes(--currentPage, searchQuery);
         }
     });
     paginationContainer.appendChild(prevButton);
@@ -89,8 +89,7 @@ function setupPagination(totalPages, currentPage, searchQuery) {
             pageButton.classList.add("active");
         }
         pageButton.addEventListener("click", () => {
-            currentPage = i;
-            fetchRecipes(currentPage, searchQuery);
+            fetchRecipes(i, searchQuery);
         });
         paginationContainer.appendChild(pageButton);
     }
@@ -102,8 +101,7 @@ function setupPagination(totalPages, currentPage, searchQuery) {
     nextButton.disabled = currentPage === totalPages;
     nextButton.addEventListener("click", () => {
         if (currentPage < totalPages) {
-            currentPage++;
-            fetchRecipes(currentPage, searchQuery);
+            fetchRecipes(++currentPage, searchQuery);
         }
     });
     paginationContainer.appendChild(nextButton);
@@ -115,34 +113,6 @@ function handleSearch() {
     currentPage = 1; // Reset to first page when searching
     fetchRecipes(currentPage, currentSearchQuery);
 }
-
-function setupSearch() {
-    const searchInput = document.getElementById("searchInput");
-    const searchButton = document.querySelector(".search-bar button");
-
-    searchButton.addEventListener("click", (event) => {
-        event.preventDefault(); // Prevents the page from refreshing
-        const query = searchInput.value.trim();
-        if (query) {
-            searchRecipes(query);
-        } else {
-            fetchRecipes(); // Fetch all recipes if search query is empty
-        }
-    });
-
-    searchInput.addEventListener("keypress", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevents the page from refreshing
-            const query = searchInput.value.trim();
-            if (query) {
-                searchRecipes(query);
-            } else {
-                fetchRecipes(); // Fetch all recipes if search query is empty
-            }
-        }
-    });
-}
-
 
 function searchRecipes(query) {
     console.log("Searching for:", query);
