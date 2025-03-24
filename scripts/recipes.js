@@ -8,32 +8,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const authLinks = document.getElementById("authLinks");
 
-    if (token) {
-        authLinks.innerHTML = `
-            <li><a href="index.html">Home</a></li>
-            <li><a href="recipes.html">Recipes</a></li>
-            <li><a href="chefs.html">Chefs</a></li>
-            <li class="dropdown">
-                <a href="#">My Account ▼</a>
-                <ul class="dropdown-menu">
-                    <li><a href="profile.html">My Profile</a></li>
-                    <li><a href="favorites.html">Favorites</a></li>
-                    <li><a href="#" id="logoutBtn">Logout</a></li>
-                </ul>
-            </li>
-        `;
-    }
+    if (authLinks) {
+        if (token) {
+            authLinks.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="chefs.html">Chefs</a></li>
+                <li class="dropdown">
+                    <a href="#">My Account ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="profile.html">My Profile</a></li>
+                        <li><a href="favorites.html">Favorites</a></li>
+                        <li><a href="#" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </li>
+            `;
+        }
 
-    if (role === "admin") {
-        authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
-    }
+        if (role === "admin") {
+            authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
+        }
 
-    document.getElementById("logoutBtn")?.addEventListener("click", function () {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        alert("Logged out successfully.");
-        window.location.href = "index.html";
-    });
+        document.getElementById("logoutBtn")?.addEventListener("click", function () {
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            alert("Logged out successfully.");
+            window.location.href = "index.html";
+        });
+    }
 
     document.getElementById("prevPage").addEventListener("click", () => {
         if (currentPage > 1) {
