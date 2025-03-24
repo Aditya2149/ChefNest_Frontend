@@ -273,6 +273,24 @@ footer {
     cursor: pointer;
 }
 
+.book-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6600;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.book-btn:hover {
+    background-color: #cc5500;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;

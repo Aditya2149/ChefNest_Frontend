@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Chefs</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="./assets/OQ5CLB0.webp" alt="ChefNest Logo">
+        ChefNest
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="chef.html">Chefs</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Search and Filter Section -->
+<div class="search-bar">
+    <input type="text" id="searchName" placeholder="Search by name">
+    <input type="text" id="searchLocation" placeholder="Search by city, state, or country">
+    <button onclick="filterChefs()">Search</button>
+</div>
+
+<!-- Chefs Listing -->
+<section class="chef-grid" id="chefList">
+    <!-- Chef cards will be inserted dynamically using JavaScript -->
+</section>
+<script src="./scripts/chef.js"></script>
+</body>
+</html>
