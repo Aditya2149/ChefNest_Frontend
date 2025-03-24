@@ -2,7 +2,8 @@ let currentPage = 1;
 const recipesPerPage = 6;
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchRecipes(currentPage);
+    fetchRecipes(); // Fetch all recipes initially
+    setupSearch(); // Set up search functionality
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
@@ -50,19 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function fetchRecipes(page) {
-    fetch(`https://chefnest.onrender.com/recipes?page=${page}&limit=${recipesPerPage}`)
+function fetchRecipes() {
+    fetch(`https://chefnest.onrender.com/recipes`)
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
             recipeGrid.innerHTML = "";
-
-            if (data.length === 0) {
-                document.getElementById("nextPage").disabled = true;
-                return;
-            } else {
-                document.getElementById("nextPage").disabled = false;
-            }
 
             data.forEach(recipe => {
                 const recipeCard = document.createElement("div");
@@ -77,19 +71,46 @@ function fetchRecipes(page) {
                 });
                 recipeGrid.appendChild(recipeCard);
             });
-
-            document.getElementById("pageNumber").textContent = `Page ${page}`;
         })
         .catch(error => console.error("Error fetching recipes:", error));
 }
 
-function searchRecipes() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase();
-    fetch(`https://chefnest.onrender.com/recipes?query=${searchInput}`)
+function setupSearch() {
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.querySelector(".search-bar button");
+
+    searchButton.addEventListener("click", () => {
+        const query = searchInput.value.trim();
+        if (query) {
+            searchRecipes(query);
+        } else {
+            fetchRecipes(); // Fetch all recipes if search query is empty
+        }
+    });
+
+    searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            const query = searchInput.value.trim();
+            if (query) {
+                searchRecipes(query);
+            } else {
+                fetchRecipes(); // Fetch all recipes if search query is empty
+            }
+        }
+    });
+}
+
+function searchRecipes(query) {
+    fetch(`https://chefnest.onrender.com/recipes?query=${query}`)
         .then(response => response.json())
         .then(data => {
             const recipeGrid = document.querySelector(".recipe-grid");
             recipeGrid.innerHTML = "";
+
+            if (data.length === 0) {
+                recipeGrid.innerHTML = `<p>No recipes found for "${query}".</p>`;
+                return;
+            }
 
             data.forEach(recipe => {
                 const recipeCard = document.createElement("div");
