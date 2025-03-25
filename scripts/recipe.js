@@ -83,3 +83,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error fetching recipe details:", error);
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector("nav ul");
+
+    menuToggle.addEventListener("click", function () {
+        navMenu.classList.toggle("show");
+    });
+});
