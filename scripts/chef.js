@@ -43,11 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Fetch all chefs from the backend
 async function fetchChefs() {
+    const loadingElement = document.querySelector(".loading");
+
+    // Show loading indicator
+    loadingElement.style.display = "flex";
     try {
         const response = await fetch("https://chefnest.onrender.com/chef-profile/all");
         const chefs = await response.json();
 
         if (response.ok) {
+            loadingElement.style.display = "none";
             displayChefs(chefs);
         } else {
             console.error("Error fetching chefs:", chefs.message);

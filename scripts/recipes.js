@@ -70,10 +70,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function fetchRecipes() {
+    const recipeGrid = document.querySelector(".recipe-grid");
+    const loadingElement = document.querySelector(".loading");
+
+    // Show loading indicator
+    loadingElement.style.display = "flex";
     fetch(`https://chefnest.onrender.com/recipes`)
         .then(response => response.json())
         .then(data => {
-            const recipeGrid = document.querySelector(".recipe-grid");
+            loadingElement.style.display = "none";
             if (!recipeGrid) {
                 console.error("Recipe grid element not found");
                 return;

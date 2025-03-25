@@ -58,6 +58,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         const reviews = reviewsData || [];
 
         const detailsSection = document.getElementById("recipe-details");
+        const loadingElement = detailsSection.querySelector(".loading");
+        // Remove loader once data is ready
+        loadingElement.style.display = "none";
 
         detailsSection.innerHTML = `
             <div class="recipe-container">
@@ -88,5 +91,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         `;
     } catch (error) {
         console.error("Error fetching recipe details:", error);
+        loadingElement.innerHTML = "<p style='color: red;'>Failed to load recipe details. Please try again.</p>";
     }
 });
