@@ -1,8 +1,15 @@
+// chef.js
 document.addEventListener("DOMContentLoaded", () => {
     fetchChefs(); // Fetch and display chefs on page load
 
     const token = localStorage.getItem("token");
-
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navMenu = document.querySelector("nav ul");
+    
+        menuToggle.addEventListener("click", function () {
+            navMenu.classList.toggle("show");
+        });
+    
     const authLinks = document.getElementById("authLinks");
 
     if (authLinks) {
@@ -105,12 +112,3 @@ function filterChefs() {
 function bookChef(chefId) {
     window.location.href = `booking.html?chefId=${chefId}`;
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navMenu = document.querySelector("nav ul");
-
-    menuToggle.addEventListener("click", function () {
-        navMenu.classList.toggle("show");
-    });
-});

@@ -2,6 +2,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector("nav ul");
+
+    menuToggle.addEventListener("click", function () {
+        navMenu.classList.toggle("show");
+    });
 
     const authLinks = document.getElementById("authLinks");
 
@@ -130,11 +136,3 @@ function bookChef(chefId) {
     window.location.href = `booking.html?chefId=${chefId}`;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navMenu = document.querySelector("nav ul");
-
-    menuToggle.addEventListener("click", function () {
-        navMenu.classList.toggle("show");
-    });
-});

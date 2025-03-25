@@ -1,10 +1,17 @@
+//recipe.js
 document.addEventListener("DOMContentLoaded", async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get("id");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector("nav ul");
+    menuToggle.addEventListener("click", function () {
+        navMenu.classList.toggle("show");
+    });
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
     const authLinks = document.getElementById("authLinks");
+    
 
     if (token) {
         authLinks.innerHTML = `
@@ -82,13 +89,4 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (error) {
         console.error("Error fetching recipe details:", error);
     }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navMenu = document.querySelector("nav ul");
-
-    menuToggle.addEventListener("click", function () {
-        navMenu.classList.toggle("show");
-    });
 });

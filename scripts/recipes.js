@@ -3,13 +3,20 @@ let currentPage = 1;
 const recipesPerPage = 6;
 
 document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector("nav ul");
+
+    menuToggle.addEventListener("click", function () {
+        navMenu.classList.toggle("show");
+    });
     fetchRecipes(); // Fetch all recipes initially
     setupSearch(); // Set up search functionality
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
+    
 
     const authLinks = document.getElementById("authLinks");
-
+    
     if (authLinks) {
         if (token) {
             authLinks.innerHTML = `
@@ -160,12 +167,3 @@ function searchRecipes(query) {
             }
         });
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navMenu = document.querySelector("nav ul");
-
-    menuToggle.addEventListener("click", function () {
-        navMenu.classList.toggle("show");
-    });
-});
