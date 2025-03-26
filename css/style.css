@@ -116,7 +116,7 @@ nav ul li a {
 .chef-img {
     width: 250px;
     height: 250px;
-    border-radius: 50%;
+    border-radius: 5%;
 }
 
 .recipe-container {
