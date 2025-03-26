@@ -55,17 +55,6 @@ nav ul li a {
     font-size: 48px;
 }
 
-.btn {
-    display: inline-block;
-    background-color: #D7CCC8;
-    color: black;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-    border-radius: 5px;
-}
-
 .about, .testimonials {
     text-align: center;
     padding: 50px 20px;
@@ -75,17 +64,6 @@ nav ul li a {
     text-align: center;
     padding: 50px 20px;
     background-color: #F5F5F5;
-}
-
-/* Recipe details styling */
-.recipe-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
 }
 
 .recipe-img {
@@ -100,6 +78,25 @@ nav ul li a {
     padding-left: 20px;
 }
 
+/* 🔹 Chef Page Styling */
+.chef-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container{
+    max-width: 90%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
 .chef-link {
     color: #ff6347;
     font-weight: bold;
@@ -109,6 +106,50 @@ nav ul li a {
 
 .chef-link:hover {
     color: #d84315;
+}
+
+.chef-details {
+    text-align: center;
+    padding: 20px 0px;
+}
+
+.chef-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.recipe-container {
+    width: 87%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.review-card {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Loader Styling */
@@ -329,17 +370,6 @@ footer {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
-.btn {
-    display: inline-block;
-    background-color: #D7CCC8;
-    color: black;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
 }
 
 .book-btn {
