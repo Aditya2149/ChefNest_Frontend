@@ -101,13 +101,25 @@ function displayChefRecipes(recipes) {
 
 function renderRecipes(recipes) {
     const recipeList = document.getElementById("recipeList");
-    recipeList.innerHTML = recipes.map(recipe => `
-        <div class="recipe-card">
+    recipeList.innerHTML = ""; // Clear previous recipes
+
+    recipes.forEach(recipe => {
+        const recipeCard = document.createElement("div");
+        recipeCard.classList.add("recipe-card");
+
+        recipeCard.innerHTML = `
             <img src="${recipe.image_url || 'assets/default-recipe.jpg'}" alt="${recipe.title}">
             <h3>${recipe.title}</h3>
             <p>${recipe.description}</p>
-        </div>
-    `).join("");
+        `;
+
+        // Add event listener for navigation
+        recipeCard.addEventListener("click", () => {
+            window.location.href = `recipe.html?id=${recipe.id}`;
+        });
+
+        recipeList.appendChild(recipeCard);
+    });
 }
 
 // Fetch Chef Reviews

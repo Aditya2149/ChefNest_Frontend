@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe-img">
                 <p>${recipe.description}</p>
                 
-                <h3>Posted by: <a href="chefprofile.html?id=${chefId}" class="chef-link">${chefName}</a></h3>
+                <p>Posted by: <a href="chef.html?id=${chefId}" class="chef-link">${chefName}</a></p>
 
                 <h3>Ingredients:</h3>
                 <ul class="ingredients-list">
