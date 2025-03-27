@@ -1,22 +1,50 @@
-//recipes.js
 let currentPage = 1;
-const recipesPerPage = 6;
+const recipesPerPage = 10;
+let totalRecipes = 0;
+let isSearchActive = false;
+let currentSearchQuery = '';
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Mobile menu toggle
     const menuToggle = document.querySelector(".menu-toggle");
     const navMenu = document.querySelector("nav ul");
-
     menuToggle.addEventListener("click", function () {
         navMenu.classList.toggle("show");
     });
-    fetchRecipes(); // Fetch all recipes initially
-    setupSearch(); // Set up search functionality
+
+    // Initialize pagination controls
+    const prevPageBtn = document.getElementById("prevPage");
+    const nextPageBtn = document.getElementById("nextPage");
+    
+    prevPageBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updateRecipesDisplay();
+        }
+    });
+
+    nextPageBtn.addEventListener("click", () => {
+        currentPage++;
+        updateRecipesDisplay();
+    });
+
+    // Initialize auth state
+    updateAuthState();
+    
+    // Initial fetch
+    fetchTotalRecipes().then(() => {
+        updateRecipesDisplay();
+    });
+
+    // Search setup
+    setupSearch();
+});
+
+function updateAuthState() {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
-    
-
     const authLinks = document.getElementById("authLinks");
-    
+
     if (authLinks) {
         if (token) {
             authLinks.innerHTML = `
@@ -32,15 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
             `;
-        }
 
-        if (role === "admin") {
-            authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
-        }
+            if (role === "admin") {
+                authLinks.innerHTML += `<li><a href="admin-dashboard.html">Admin Panel</a></li>`;
+            }
 
-        const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) {
-            logoutBtn.addEventListener("click", function () {
+            document.getElementById("logoutBtn")?.addEventListener("click", function () {
                 localStorage.removeItem("token");
                 localStorage.removeItem("role");
                 alert("Logged out successfully.");
@@ -48,59 +73,84 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+}
 
-    const prevPageBtn = document.getElementById("prevPage");
-    const nextPageBtn = document.getElementById("nextPage");
-    
-    if (prevPageBtn) {
-        prevPageBtn.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                fetchRecipes(currentPage);
-            }
-        });
+async function fetchTotalRecipes() {
+    try {
+        const response = await fetch(`https://chefnest.onrender.com/recipes/count`);
+        const data = await response.json();
+        totalRecipes = data.count;
+    } catch (error) {
+        console.error("Error fetching total recipes count:", error);
     }
+}
 
-    if (nextPageBtn) {
-        nextPageBtn.addEventListener("click", () => {
-            currentPage++;
-            fetchRecipes(currentPage);
-        });
-    }
-});
-
-function fetchRecipes() {
-    const recipeGrid = document.querySelector(".recipe-grid");
+async function updateRecipesDisplay() {
     const loadingElement = document.querySelector(".loading");
-
-    // Show loading indicator
+    const recipeGrid = document.querySelector(".recipe-grid");
+    
     loadingElement.style.display = "flex";
-    fetch(`https://chefnest.onrender.com/recipes`)
-        .then(response => response.json())
-        .then(data => {
-            loadingElement.style.display = "none";
-            if (!recipeGrid) {
-                console.error("Recipe grid element not found");
-                return;
-            }
-            
-            recipeGrid.innerHTML = "";
+    recipeGrid.innerHTML = "";
 
-            data.forEach(recipe => {
-                const recipeCard = document.createElement("div");
-                recipeCard.classList.add("recipe-card");
-                recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
+    try {
+        let url;
+        if (isSearchActive && currentSearchQuery) {
+            url = `https://chefnest.onrender.com/recipes/search?query=${encodeURIComponent(currentSearchQuery)}&page=${currentPage}&limit=${recipesPerPage}`;
+        } else {
+            url = `https://chefnest.onrender.com/recipes?page=${currentPage}&limit=${recipesPerPage}`;
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        loadingElement.style.display = "none";
+
+        // Handle both response formats (search returns different structure)
+        const recipes = data.recipes || data;
+        const total = data.total || totalRecipes;
+
+        if (recipes.length === 0) {
+            recipeGrid.innerHTML = `<p class="no-results">No recipes found.</p>`;
+            updatePaginationControls(0);
+            return;
+        }
+
+        recipes.forEach(recipe => {
+            const recipeCard = document.createElement("div");
+            recipeCard.classList.add("recipe-card");
+            recipeCard.innerHTML = `
+                <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
+                <div class="recipe-card-content">
                     <h3>${recipe.title}</h3>
                     <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
-                `;
-                recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe.html?id=${recipe.id}`;
-                });
-                recipeGrid.appendChild(recipeCard);
+                </div>
+            `;
+            recipeCard.addEventListener("click", () => {
+                window.location.href = `recipe.html?id=${recipe.id}`;
             });
-        })
-        .catch(error => console.error("Error fetching recipes:", error));
+            recipeGrid.appendChild(recipeCard);
+        });
+
+        updatePaginationControls(recipes.length, total);
+    } catch (error) {
+        console.error("Error fetching recipes:", error);
+        loadingElement.style.display = "none";
+        recipeGrid.innerHTML = `<p class="error-message">An error occurred while loading recipes. Please try again.</p>`;
+    }
+}
+
+function updatePaginationControls(currentItemsCount, total = totalRecipes) {
+    const prevPageBtn = document.getElementById("prevPage");
+    const nextPageBtn = document.getElementById("nextPage");
+    const pageInfo = document.getElementById("pageInfo");
+
+    prevPageBtn.disabled = currentPage === 1;
+    
+    // For search results, we use the total from the search response if available
+    const totalItems = total || totalRecipes;
+    nextPageBtn.disabled = (currentPage * recipesPerPage) >= totalItems;
+
+    pageInfo.textContent = `Page ${currentPage} of ${Math.ceil(totalItems / recipesPerPage)}`;
 }
 
 function setupSearch() {
@@ -108,67 +158,29 @@ function setupSearch() {
     const searchButton = document.querySelector(".search-bar button");
 
     searchButton.addEventListener("click", (event) => {
-        event.preventDefault(); // Prevents the page from refreshing
-        const query = searchInput.value.trim();
-        if (query) {
-            searchRecipes(query);
-        } else {
-            fetchRecipes(); // Fetch all recipes if search query is empty
-        }
+        event.preventDefault();
+        performSearch();
     });
 
     searchInput.addEventListener("keypress", (event) => {
         if (event.key === "Enter") {
-            event.preventDefault(); // Prevents the page from refreshing
-            const query = searchInput.value.trim();
-            if (query) {
-                searchRecipes(query);
-            } else {
-                fetchRecipes(); // Fetch all recipes if search query is empty
-            }
+            event.preventDefault();
+            performSearch();
         }
     });
 }
 
-
-function searchRecipes(query) {
-    console.log("Searching for:", query);
-
-    fetch(`https://chefnest.onrender.com/recipes/search?query=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-            const recipeGrid = document.querySelector(".recipe-grid");
-            if (!recipeGrid) {
-                console.error("Recipe grid element not found");
-                return;
-            }
-            
-            recipeGrid.innerHTML = "";
-
-            if (data.length === 0) {
-                recipeGrid.innerHTML = `<p class="no-results">No recipes found for "${query}".</p>`;
-                return;
-            }
-
-            data.forEach(recipe => {
-                const recipeCard = document.createElement("div");
-                recipeCard.classList.add("recipe-card");
-                recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='https://dummyimage.com/300x200/ddd/000.png&text=Recipe'">
-                    <h3>${recipe.title}</h3>
-                    <p>${recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
-                `;
-                recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe.html?id=${recipe.id}`;
-                });
-                recipeGrid.appendChild(recipeCard);
-            });
-        })
-        .catch(error => {
-            console.error("Error searching recipes:", error);
-            const recipeGrid = document.querySelector(".recipe-grid");
-            if (recipeGrid) {
-                recipeGrid.innerHTML = `<p class="error-message">An error occurred while searching. Please try again.</p>`;
-            }
-        });
+function performSearch() {
+    const query = document.getElementById("searchInput").value.trim();
+    currentSearchQuery = query;
+    
+    if (query) {
+        isSearchActive = true;
+        currentPage = 1;
+        updateRecipesDisplay();
+    } else {
+        isSearchActive = false;
+        currentPage = 1;
+        updateRecipesDisplay();
+    }
 }

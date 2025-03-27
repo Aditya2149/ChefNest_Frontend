@@ -183,6 +183,43 @@ nav ul li a {
 
 
 /* ===== Recipes Page Specific Styles ===== */
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    gap: 15px;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    background-color: #4E342E;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: #3E2723;
+    transform: translateY(-2px);
+}
+
+.page-btn:disabled {
+    background-color: #D7CCC8;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.page-info {
+    font-size: 16px;
+    color: #4E342E;
+    padding: 0 15px;
+}
 
 /* Search Bar Styling */
 .search-bar {
@@ -245,6 +282,11 @@ nav ul li a {
         width: 70%;
     }
 
+    .pagination {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
     .recipe-grid, .chef-grid{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -288,6 +330,16 @@ nav ul li a {
     .search-bar button {
         margin-left: 5px;
         padding: 10px 20px;
+    }
+    .page-btn {
+        padding: 6px 12px;
+        min-width: 70px;
+    }
+    
+    .page-info {
+        width: 100%;
+        text-align: center;
+        order: -1;
     }
 
     .recipe-grid .chef-grid {
