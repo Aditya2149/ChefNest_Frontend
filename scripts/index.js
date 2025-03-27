@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    document.getElementById("exploreRecipes").addEventListener("click", () => {
+        window.location.href = `recipes.html`;
+    });
+
     // Only fetch recipes and chefs if we're on a page that has these elements
     // Check if we're on the homepage where these elements exist
     if (document.querySelector(".recipe-grid")) {

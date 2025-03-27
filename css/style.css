@@ -62,8 +62,12 @@ nav ul li a {
 
 .featured-recipes, .top-chefs {
     text-align: center;
-    padding: 50px 20px;
+    padding: 20px 20px;
     background-color: #F5F5F5;
+}
+
+.featured-recipes h2,  .top-chefs h2{
+    padding: 20px;
 }
 
 .recipe-img {
@@ -349,16 +353,19 @@ nav ul li a {
 .recipe-grid, .chef-grid {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 19px;
     flex-wrap: wrap;
 }
 
 .recipe-card, .chef-card {
+    width: 250px; /* Fixed card width */
+    height: 350px; /* Fixed card height (adjust as needed) */
+    overflow: hidden; /* Hide overflowing content */
+    position: relative; /* For absolute positioning if needed */
     background: white;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-    width: 250px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -366,6 +373,11 @@ nav ul li a {
     width: 100%;
     border-radius: 8px;
     transition: opacity 0.3s ease-in-out;
+    height: 200px; /* Fixed image height */
+    object-fit: cover; /* Crop to fit without distortion */
+    object-position: center; /* Focus on center of image */
+    display: block; /* Remove extra space below image */
+    border-radius: 8px 8px 0 0;
 }
 
 .recipes-list h2 {
