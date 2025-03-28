@@ -63,30 +63,47 @@ function fetchRecipes() {
     const recipeGrid = document.querySelector(".recipe-grid");
 
     if (!recipeGrid) {
-        // This should not happen now with our check above, but keeping as a safeguard
         console.error("Error: .recipe-grid element not found.");
         return;
     }
 
     fetch("https://chefnest.onrender.com/recipes/top-rated")
-        .then(response => response.json())
-        .then(data => {
-            recipeGrid.innerHTML = "";
-            data.forEach(recipe => {
-                const recipeCard = document.createElement("div");
-                recipeCard.classList.add("recipe-card");
-                recipeCard.innerHTML = `
-                    <img src="${recipe.image_url}" alt="${recipe.title}">
-                    <h3>${recipe.title}</h3>
-                    <p>${recipe.description.substring(0, 100)}...</p>
-                `;
-                recipeCard.addEventListener("click", () => {
-                    window.location.href = `recipe.html?id=${recipe.id}`;
-                });
-                recipeGrid.appendChild(recipeCard);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
         })
-        .catch(error => console.error("Error fetching recipes:", error));
+        .then(data => {
+            console.log("Recipe data received:", data); // Debugging
+
+            recipeGrid.innerHTML = "";
+
+            if (data && data.length > 0) {
+                data.forEach(recipe => {
+                    const recipeCard = document.createElement("div");
+                    recipeCard.classList.add("recipe-card");
+
+                    recipeCard.innerHTML = `
+                        <img src="${recipe.image_url}" alt="${recipe.title}" onerror="this.src='assets/default-recipe.jpg'">
+                        <h3>${recipe.title}</h3>
+                        <p>${recipe.description ? recipe.description.substring(0, 100) + "..." : "No description available."}</p>
+                    `;
+
+                    recipeCard.addEventListener("click", () => {
+                        window.location.href = `recipe.html?id=${recipe.id}`;
+                    });
+
+                    recipeGrid.appendChild(recipeCard);
+                });
+            } else {
+                recipeGrid.innerHTML = "<p>No top recipes available at the moment.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching recipes:", error);
+            recipeGrid.innerHTML = "<p>Unable to load recipe data. Please try again later.</p>";
+        });
 }
 
 function fetchChefs() {
@@ -124,6 +141,10 @@ function fetchChefs() {
                         </div>
                         <button class="book-btn" onclick="bookChef(${chef.id})">Book Chef</button>
                     `;
+
+                    chefCard.addEventListener("click", () => {
+                        window.location.href = `chef.html?id=${chef.user_id}`;
+                    });
                     chefGrid.appendChild(chefCard);
                 });
             } else {
